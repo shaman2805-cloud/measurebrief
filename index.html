@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#233d40" />
+    <meta
+      name="description"
+      content="Turn room measurements into a flooring takeoff and identify missing dimensions before leaving a job site."
+    />
+    <title>Measurebrief · Flooring worksheet</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="mast-inner">
+        <div class="wordmark">
+          <span class="brand-mark" aria-hidden="true"></span>Measurebrief
+        </div>
+        <span id="connection" class="connection">Field workspace</span>
+      </div>
+    </header>
+
+    <main>
+      <div class="page-heading">
+        <div>
+          <h1>Flooring takeoff</h1>
+          <p>
+            Turn site notes into material quantities for one rectangular room.
+          </p>
+        </div>
+        <button type="button" id="export" class="export">
+          <span aria-hidden="true">↓</span> Export worksheet
+        </button>
+      </div>
+
+      <div class="workspace">
+        <section class="sheet notes-card" aria-labelledby="notes-heading">
+          <div class="section-title">
+            <h2 id="notes-heading">Field notes</h2>
+            <span id="saved" class="saved"></span>
+          </div>
+          <label class="note-label" for="notes"
+            >Room dimensions and observations</label
+          >
+          <textarea
+            id="notes"
+            spellcheck="false"
+            placeholder="Room length 4.8 m. Room width 3.6 m."
+            autocomplete="off"
+          ></textarea>
+          <div class="examples">
+            <span>Sample notes</span
+            ><button type="button" id="incomplete">Missing a width</button
+            ><button type="button" id="complete">Complete room</button>
+          </div>
+          <div class="inputs">
+            <h3>Material assumptions</h3>
+            <div class="rates">
+              <label for="unit-price"
+                >Price per m²
+                <span class="field-wrap"
+                  ><span>$</span
+                  ><input
+                    id="unit-price"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="0.01"
+                    value="25"
+                    required /></span
+              ></label>
+              <label for="waste"
+                >Waste allowance
+                <span class="field-wrap suffix"
+                  ><input
+                    id="waste"
+                    type="number"
+                    inputmode="decimal"
+                    min="0"
+                    step="0.1"
+                    value="10"
+                    required
+                  /><span>%</span></span
+                ></label
+              >
+            </div>
+          </div>
+        </section>
+
+        <section class="sheet plan-card" aria-labelledby="plan-heading">
+          <div class="section-title">
+            <h2 id="plan-heading">Room plan</h2>
+            <span class="scale">Schematic</span>
+          </div>
+          <div class="blueprint" aria-hidden="true">
+            <div class="plan-shape" id="plan-shape">
+              <div class="dim-horizontal"><span id="plan-length"></span></div>
+              <div class="dim-vertical"><span id="plan-width"></span></div>
+              <div class="drawing"></div>
+              <span id="plan-area" class="area-stamp"></span>
+            </div>
+          </div>
+          <div id="summary" class="summary">
+            <span class="status-dot"></span><strong id="status"></strong>
+          </div>
+          <ul id="issues" class="issues"></ul>
+          <details id="evidence">
+            <summary>Measurement evidence</summary>
+            <ul id="evidence-list"></ul>
+          </details>
+        </section>
+
+        <section class="sheet estimate-card" aria-labelledby="estimate-heading">
+          <div class="section-title">
+            <h2 id="estimate-heading">Material estimate</h2>
+            <span class="scale">USD</span>
+          </div>
+          <dl class="estimate-grid">
+            <div>
+              <dt>Floor area</dt>
+              <dd id="area">—</dd>
+            </div>
+            <div>
+              <dt>With waste</dt>
+              <dd id="order">—</dd>
+            </div>
+            <div class="total">
+              <dt>Material subtotal</dt>
+              <dd id="subtotal">—</dd>
+            </div>
+          </dl>
+          <p class="subnote">
+            Material only. Labour, delivery and tax are excluded.
+          </p>
+        </section>
+
+        <section class="sheet ai-card" aria-labelledby="brief-heading">
+          <div class="section-title">
+            <h2 id="brief-heading">AI field brief</h2>
+          </div>
+          <p class="ai-description">
+            Select measurements, decisions and questions from your notes. Hybrid mode prefers
+            the device and sends your notes to Google if it falls back to the
+            cloud.
+          </p>
+          <div class="brief-actions">
+            <button type="button" id="hybrid" disabled>
+              Allow cloud fallback</button
+            ><button type="button" id="device" disabled>Use device only</button>
+          </div>
+          <p class="model-status" id="model-status">
+            Checking model availability…
+          </p>
+          <div id="ai-result" role="status" hidden></div>
+        </section>
+      </div>
+    </main>
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
